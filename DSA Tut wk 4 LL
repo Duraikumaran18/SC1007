@@ -1,0 +1,87 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+    
+    def append(self, data):
+        new_node = Node(data)
+        if not self.head:
+            self.head = new_node
+            return
+        last = self.head
+        while last.next:
+            last = last.next
+        last.next = new_node
+    
+    def print_list(self):
+        temp = self.head
+        result = []
+        while temp:
+            result.append(temp.data)
+            temp = temp.next
+        print(" ".join(map(str, result)))
+
+    def move_even_items_to_back(self):
+        if not self.head or not self.head.next:
+            return
+        
+        odd_dummy = Node(0)
+        even_dummy = Node(0)
+        odd_tail, even_tail = odd_dummy, even_dummy
+        
+        current = self.head
+        while current:
+            if current.data % 2 == 0:
+                even_tail.next = current
+                even_tail = even_tail.next
+            else:
+                odd_tail.next = current
+                odd_tail = odd_tail.next
+            current = current.next
+        
+        even_tail.next = None
+        odd_tail.next = even_dummy.next
+        self.head = odd_dummy.next
+    
+    def move_max_to_front(self):
+        if not self.head or not self.head.next:
+            return
+        
+        max_node = self.head
+        max_prev = None
+        prev = None
+        current = self.head
+        
+        while current.next:
+            if current.next.data > max_node.data:
+                max_node = current.next
+                max_prev = current
+            current = current.next
+        
+        if max_prev:
+            max_prev.next = max_node.next
+            max_node.next = self.head
+            self.head = max_node
+    
+    def remove_duplicates_sorted_ll(self):
+        if not self.head or not self.head.next:
+            return
+        
+        current = self.head
+        while current and current.next:
+            if current.data == current.next.data:
+                current.next = current.next.next
+            else:
+                current = current.next
+    
+# Circular Linked List Function
+
+def T2Q1(s, q):
+    temp = s
+    while temp.next != q:
+        temp = temp.next
+    temp.next = s
