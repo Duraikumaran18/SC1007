@@ -1,0 +1,263 @@
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+# A helper LinkedList class for testing removeNode2.
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        """Append a new node with the given data at the end of the list."""
+        new_node = Node(data)
+        if not self.head:
+            self.head = new_node
+            return
+        curr = self.head
+        while curr.next:
+            curr = curr.next
+        curr.next = new_node
+
+    def printList(self):
+        """Print the linked list."""
+        curr = self.head
+        while curr:
+            print(curr.data, end=" ")
+            curr = curr.next
+        print()
+
+# -----------------------------------------------------------------------------
+# 1. Function removeNode(ptrHead, index)
+#
+# This function accepts a pointer (reference) to the head node and an integer index.
+# It removes the node at that index and returns 1 if successful, 0 otherwise.
+#
+# NOTE: In Python, because variables are passed by assignment, to simulate a reference
+#       to the head pointer we return the (possibly updated) head along with the result.
+#       The caller should update its head pointer accordingly.
+# -----------------------------------------------------------------------------
+def removeNode(ptrHead, index):
+    """
+    Remove the node at position 'index' from the list whose head is ptrHead.
+    Returns a tuple: (result, newHead) where result is 1 if successful, 0 otherwise.
+    """
+    if ptrHead is None:
+        # List is empty.
+        return 0, ptrHead
+
+    # If deleting the first node.
+    if index == 0:
+        newHead = ptrHead.next
+        return 1, newHead
+
+    current = ptrHead
+    prev = None
+    current_index = 0
+
+    # Traverse to the node at the given index.
+    while current is not None and current_index < index:
+        prev = current
+        current = current.next
+        current_index += 1
+
+    if current is None:
+        # Index out of bounds.
+        return 0, ptrHead
+
+    # Bypass the node to be deleted.
+    prev.next = current.next
+    return 1, ptrHead
+
+# -----------------------------------------------------------------------------
+# 2. Function removeNode2(ll, index)
+#
+# This function uses a LinkedList object (with attribute head) and removes the node at
+# the specified index. It returns 1 if successful, 0 otherwise.
+# -----------------------------------------------------------------------------
+def removeNode2(ll, index):
+    """
+    Remove the node at position 'index' from the LinkedList object ll.
+    Returns 1 if deletion is successful, 0 otherwise.
+    """
+    if ll.head is None:
+        return 0
+
+    # If deleting the first node.
+    if index == 0:
+        ll.head = ll.head.next
+        return 1
+
+    current = ll.head
+    prev = None
+    current_index = 0
+
+    # Traverse to the node at the given index.
+    while current is not None and current_index < index:
+        prev = current
+        current = current.next
+        current_index += 1
+
+    if current is None:
+        # Index out of bounds.
+        return 0
+
+    # Remove the node.
+    prev.next = current.next
+    return 1
+
+# -----------------------------------------------------------------------------
+# 3. Function split(head, ptrEvenList, ptrOddList)
+#
+# This function copies nodes from the original list (starting at head) into two new lists:
+# one containing nodes from even indices and one containing nodes from odd indices.
+#
+# We assume that ptrEvenList and ptrOddList are one-element lists that will hold the head
+# pointer of the even and odd lists, respectively.
+# -----------------------------------------------------------------------------
+def split(head, ptrEvenList, ptrOddList):
+    """
+    Split the original list into two lists.
+    Nodes at even indices (0, 2, 4, ...) are copied into ptrEvenList[0],
+    and nodes at odd indices (1, 3, 5, ...) are copied into ptrOddList[0].
+    The original list remains unchanged.
+    """
+    # Use dummy nodes to build the new lists.
+    even_dummy = Node(0)
+    odd_dummy = Node(0)
+    even_tail = even_dummy
+    odd_tail = odd_dummy
+
+    index = 0
+    current = head
+
+    while current:
+        # Create a new node copying the current node's data.
+        new_node = Node(current.data)
+        if index % 2 == 0:
+            even_tail.next = new_node
+            even_tail = even_tail.next
+        else:
+            odd_tail.next = new_node
+            odd_tail = odd_tail.next
+        index += 1
+        current = current.next
+
+    # Update the references (simulated pass-by-reference).
+    ptrEvenList[0] = even_dummy.next
+    ptrOddList[0] = odd_dummy.next
+
+# -----------------------------------------------------------------------------
+# 4. Function duplicateReverse(head, ptrNewHead)
+#
+# This function creates a duplicate of the list whose head is 'head', but with the order
+# of nodes reversed. The new head is stored in ptrNewHead[0]. The function returns 0 if
+# successful and -1 otherwise.
+#
+# In Python, we always assume success unless an exception occurs.
+# -----------------------------------------------------------------------------
+def duplicateReverse(head, ptrNewHead):
+    """
+    Create a duplicate of the list in reverse order.
+    The head of the new list is stored in ptrNewHead[0].
+    Returns 0 if successful, -1 otherwise.
+    """
+    new_head = None
+    current = head
+
+    while current:
+        # Create a new node.
+        new_node = Node(current.data)
+        # Insert new_node at the beginning of new_head.
+        new_node.next = new_head
+        new_head = new_node
+        current = current.next
+
+    ptrNewHead[0] = new_head
+    return 0
+
+# -----------------------------------------------------------------------------
+# Helper functions for demonstration
+# -----------------------------------------------------------------------------
+def buildList(values):
+    """Builds a linked list from the given list of values and returns its head."""
+    head = None
+    tail = None
+    for value in values:
+        new_node = Node(value)
+        if head is None:
+            head = new_node
+            tail = new_node
+        else:
+            tail.next = new_node
+            tail = new_node
+    return head
+
+def printList(head):
+    """Prints the linked list starting from head."""
+    current = head
+    while current:
+        print(current.data, end=" ")
+        current = current.next
+    print()
+
+# -----------------------------------------------------------------------------
+# Demonstration of the functions
+# -----------------------------------------------------------------------------
+if __name__ == "__main__":
+    print("=== Testing removeNode ===")
+    # Build a list: 10 -> 20 -> 30 -> 40
+    head = buildList([10, 20, 30, 40])
+    print("Original list:")
+    printList(head)
+    
+    # Remove node at index 2 (the node with value 30)
+    result, head = removeNode(head, 2)
+    print("After removing node at index 2 (result = {}):".format(result))
+    printList(head)
+    
+    # Remove node at index 0 (removing head)
+    result, head = removeNode(head, 0)
+    print("After removing node at index 0 (result = {}):".format(result))
+    printList(head)
+    
+    print("\n=== Testing removeNode2 with LinkedList class ===")
+    ll = LinkedList()
+    for value in [100, 200, 300, 400, 500]:
+        ll.append(value)
+    print("Original LinkedList:")
+    ll.printList()
+    
+    # Remove node at index 3 (the node with value 400)
+    result = removeNode2(ll, 3)
+    print("After removing node at index 3 (result = {}):".format(result))
+    ll.printList()
+
+    print("\n=== Testing split ===")
+    # Build the sample list: 1 3 5 2 4 6 19 16 7
+    original_head = buildList([1, 3, 5, 2, 4, 6, 19, 16, 7])
+    print("Current list:")
+    printList(original_head)
+    
+    # Prepare containers for even and odd list heads.
+    evenHeadRef = [None]
+    oddHeadRef = [None]
+    
+    split(original_head, evenHeadRef, oddHeadRef)
+    
+    print("Even list (nodes at even indices):")
+    printList(evenHeadRef[0])
+    print("Odd list (nodes at odd indices):")
+    printList(oddHeadRef[0])
+
+    print("\n=== Testing duplicateReverse ===")
+    # Build the sample list: 1 3 5 2 4 6
+    original_head = buildList([1, 3, 5, 2, 4, 6])
+    print("Current list:")
+    printList(original_head)
+    
+    newHeadRef = [None]
+    ret = duplicateReverse(original_head, newHeadRef)
+    print("duplicateReverse return value:", ret)
+    print("Reversed duplicate list:")
+    printList(newHeadRef[0])
