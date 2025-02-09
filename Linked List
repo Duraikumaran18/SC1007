@@ -17,11 +17,21 @@ class LinkedList:
                 print(n.data, "--->", end = " ")
                 n = n.ref
                 
+    # ADDING AT THE BEGINNING OF THE LL
+    # 1. create the node
+    # 2. new_node ref = head
+    # 3 . head = new_node
     def add_begin(self, data):
         new_node = Node(data) # DATA|NONE
-        new_node.ref = self.head #assigning the initial first node ref to new first node to create the link between the node
+        new_node.ref = self.head #assigning the initial first node ref to new first node to create the link between the nodes
         self.head = new_node # making the head point to the new first node
         
+    # ADDING AT THE END OF THE LL
+    # 1. create the node
+    #.    - check if LL is empty, if yes, jusr add the node at the start!
+    #     - else add manually
+    # 2. new_node ref = None
+    # 3. Last node ref = new_node
     def add_end(self, data):
         new_node = Node(data)
         if self.head is None: #checking if the LL is empty or not
@@ -32,13 +42,68 @@ class LinkedList:
                 n = n.ref # going to the next node
             n.ref = new_node
             
+    # ADDING AT THE GIVEN INDEX (between the LL) - AFTER A GIVEN NODE
+    # 
+    # 2. after_node (self, data , X) X = the node after you want to add
+    #       - first must find the X:
+    #       - check if n.data = x (data of the node you want) - use while loop to go there
+    # 1. create the node
+    # 3  n.ref = new_node
+    def add_after(self, data, x):
+        n = self.head
+        while n is not None:
+            if x == n.data:
+                break
+            else:
+                n = n.ref # going to the next node to check for x
+        if n is None:
+            print("node is not present in LL")
+        else:
+            new_node = Node(data) #creating a new node
+            new_node.ref = n.ref #x node has this ref
+            n.ref = new_node
+            
+    # ADDING AT THE GIVEN INDEX (between the LL) - BEFORE A GIVEN NODE
+    # 
+    # 2. after_node (self, data , X) X = the node (DATA) BEFORE you want to add
+    #       - first must find the X:
+    #       - check if n.data = x (data of the node you want) - use while loop to go there
+    # 1. create the node
+    # 3  n.ref = new_node
+    def add_before(self, data, x):
+        if self.head is None:
+            print("LL is empty")
+            return
+        if self.head.data == x:
+            new_node = Node(data)
+            new_node.ref = self.head
+            self.head = new_node
+            return
+        n = self.head
+        while n.ref is not None:
+            if n.ref.data == x:
+                break
+            n = n.ref
+        if n.ref is None:
+            print("Node is not found")
+        else:
+            new_node = Node(data)
+            new_node.ref = n.ref
+            n.ref = new_node
+            
 
 LL1 = LinkedList()
+
 LL1.add_begin(10)
-LL1.add_begin(20)
 LL1.add_end(100)
-LL1.add_end(500)
-LL1.print_LL()
+LL1.add_before(20,10)
+LL1.add_after(200, 100) # data is 200, and you want to add after the node that has 100
+
+LL1.print_LL() # this is how you call the function -- to output the LL
+
+
+
+        
 
 
 
