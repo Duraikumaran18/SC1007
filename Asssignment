@@ -1,0 +1,64 @@
+qn 1==============================
+
+    evenhead = even = Node(0)
+    oddhead = odd = Node(0)
+
+    n = head
+    while n is not None:
+        if n.data % 2 == 0:
+            even.next = n
+            even = even.next
+        else:
+            odd.next = n
+            odd = odd.next
+        n = n.next
+
+    even.next = oddhead.next
+    odd.next = None
+
+    return evenhead.next
+
+QN 2 =========================================================
+
+    if not head or not head.next:
+        return head
+    
+    min_value = head.data
+    curr = head
+    while curr:
+        if curr.data < min_value:
+            min_value = curr.data
+        curr = curr.next
+
+    temp = Node(0)
+    temp.next = head
+    previous, curr = temp, head
+    min_nodes = []
+
+    while curr:
+        if curr.data == min_value:
+            min_nodes.append(curr)
+            previous.next = curr.next
+        else:
+            previous = curr
+        curr = curr.next
+
+    for node in reversed(min_nodes): 
+        node.next = temp.next
+        temp.next = node
+
+    return temp.next 
+
+
+QN 3=======================================================
+if head is None or head.next is None:
+        return head
+    
+    n = head
+    new_head = None
+    while n is not None:
+        n.prev, n.next = n.next, n.prev
+        new_head = n
+        n = n.prev  
+
+    return new_head
