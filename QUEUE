@@ -1,0 +1,64 @@
+# QUEUE USING LIST!
+# you can choose which side is real and which is front!
+#ENQUEUE AND DEQUEUE ARE FUNCTION YOU ARE GOING TO CERATE
+"""
+queue = []
+ 
+queue.append(10)
+queue.append(20)
+queue.append(30)
+
+queue.pop(0) #0 is mentioned to remove the element from front, so 10 will be removed
+
+#enqueue from the front
+queue.insert(0,10)
+queue.insert(0,20)
+queue.insert(0,30)
+
+#deque from the other side 
+queue.pop()
+
+#to check if empty of no, use not queue, it will give true or false
+
+#to see what elements in the rear and front
+
+print(queue[-1]) # to check the last eleemt
+print(queue[0]) # to check the first eleemt
+
+"""
+
+# QUEUE USING CLASSES!==================================================
+
+#DEQUE --> COLLECTIONS
+# WILL MAKE US ENTER AND REMOVE DATA FROM BOTH SIDE! 
+"""
+#1. create a empty queue
+import collections
+q = collections.deque()
+print(q)
+
+#2. add elements ffrom left
+q.appendleft(10)
+q.appendleft(20)
+q.appendleft(30)
+print(q)
+
+q.pop()
+print(q)
+"""
+
+#QUEUE --> QUEUE
+import queue
+q = queue.Queue()
+
+q.put(10)
+q.put(60) #put will add the element in the queue
+q.put(100)
+
+print(q)
+
+print(q.get()) # get will remove tje element from the queue
+
+
+
+
