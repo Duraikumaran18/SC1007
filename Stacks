@@ -1,0 +1,67 @@
+#IMPLEMENTING STACKS USING LIST!
+
+"""stack = [] # creating a empty list
+stack.append(10) # will append at the end!
+stack.append(20)
+stack.append(30)
+print(stack)
+
+stack.pop() # pop will remove the last element!
+stack.pop()
+stack.pop()
+
+#lAST ELEMETN IS THE TOP ELEMENT
+stack[-1] #last elemetns index is -1 which will be in the top  
+
+# PUSH --> APPEND IN LIST
+# POP --> POP IN LIST
+
+#USING LIST YOU MUST CREATE THE STACK FUNCITON YOUESELF
+"""
+
+
+#==================================================================
+
+#IMPLEMENTING STACK USING MODULES!
+
+# TO CREATE THE STACK, DO THE FOLLWOIUN
+#   1. IMPORT MODULES
+#   2. STACK = COLLECTIONS.DEQUE()
+#   3. STACK
+
+#to add elements into the stack:
+#   .append(10) or    .append(200) and so on...
+
+# to delete element from bac, use stack,pop()
+
+#to check if stack is empty or not use, not stack
+
+# can use index to access the elements inside a stack, like stack[-1] for the top element!
+"""
+import collections
+stack = collections.deque()
+print(stack)
+
+stack.append(10)
+stack.append(30)
+print(stack)
+
+print(stack[-1])
+"""
+
+#===================================================================
+
+#CREATING STACK USIG QUEUE!
+
+import queue
+stack = queue.LifoQueue(3) #3 means max size of stack is 3 elemetn! itsll print full after 3
+
+#putting elements into stack
+stack.put(10)
+stack.put(20)
+stack.put(40, timeout = 1) #will print queue is full in 1 sec
+
+#to perform pop
+stack.get()#remoce from top to bottom or last to first,
+
+print(stack)
