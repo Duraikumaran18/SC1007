@@ -1,0 +1,181 @@
+#BINARY SEARCH TREE
+"""
+contains 3 main things
+    - key/data
+    - left child's ref/link
+    - right child's ref/link
+    ref can be None
+
+left sub tree ref || DATA || right subtree ref
+in ref memory address of the next node is stored, just like in LL
+
+"""
+
+class BST:
+    #for creating the empty node
+    def __init__(self, key):
+        self.key = key
+        self.lchild = None
+        self.rchild = None
+    
+    #for traversal of the BST and INSERTING
+    def insert(self, data):
+        if self.key is None:
+            self.key = data #adding the given data to the NONE | NONE | NONE
+            return
+        if self.key == data:
+            return
+        if self.key > data:
+            if self.lchild:
+                self.lchild.insert(data)
+            else:
+                self.lchild = BST(data)
+        else:
+            if self.rchild:
+                self.rchild.insert(data)
+            else:
+                self.rchild = BST(data)
+            
+    # to check if the given node is present in the tree or not! (SEARCH)
+    def search(self, data):
+        if self.key == data:
+            print("Node is present!")
+            return
+        if data < self.key:
+            if self.lchild:
+                self.lchild.search(data)
+            else:
+                print("Node is not present!")
+        else:
+            if self.rchild:
+                self.rchild.search(data)
+            else:
+                print("Node is not present!")
+        
+    #TRAVERSING A TREE: PREORDER, IN ORDER AND POST ORDER!
+    #1. PRE ORDER:
+    def preorder(self):
+        print(self.key, end = " ") #printing the root key
+        if self.lchild:
+            self.lchild.preorder()
+        if self.rchild:
+            self.rchild.preorder()
+        
+    #2. IN ORDER TRAVERSAL: #just change the order to Lsubtree | Root | rSUBTREE
+    def inorder(self):
+        if self.lchild:
+            self.lchild.inorder()
+        print(self.key, end = " ")
+        if self.rchild:
+            self.rchild.inorder()
+    
+    #3. POSTORDER TREAVERSAL: AGAIN JUST CHANGE THE ORDER TO LEFT | RIGHT | NODE
+    def postorder(self):
+        if self.lchild:
+            self.lchild.postorder()
+        if self.rchild:
+            self.rchild.postorder()
+        print(self.key, end = " ")
+        
+    #DELETION FROM THE BST
+    # 1. check if tree is empty or not
+    # 2. if not empty, SEARCH the node
+    # 3. if present, delete it. else print "not present!"
+    
+    def delete(self, data, curr):
+        if self.key is None: #checking if tree is empty or not
+            print("Tree is empty")
+            return
+        if data < self.key: #checking if in left subtree
+            if self.lchild:
+                self.lchild = self.lchild.delete(data, curr)
+            else:
+                print("Given node is not present!")
+        elif data > self.key: #checking if in right subtree
+            if self.rchild:
+                self.rchild = self.rchild.delete(data, curr)
+            else:
+                print("Given node is not present!")
+        else: #actaully deleting the node with x child! (case 1,2,3)
+            if self.lchild is None: # deletinf if node has 0 or 1 child
+                temp = self.rchild
+                if data == curr:
+                    self.key = self.rchild.key
+                    self.lchild = self.rchild.lchild
+                    self.rchild = self.rchild.rchild
+                    temp = None
+                    return
+                self = None
+                return temp
+            if self.rchild is None: # deletinf if node has 0 or 1 child
+                temp = self.lchild
+                if data == curr:
+                    self.key = self.lchild.key
+                    self.lchild = self.lchild.lchild
+                    self.rchild = self.lchild.rchild
+                    temp = None
+                    return
+                self = None
+                return temp
+            # deleting if the node has 2 child!
+            # so you can replace that node with the 
+            #       - largest value from the left subtree
+            #       - smallest value from the right subtree (preffered!)
+            node = self.rchild
+            while node.lchild:
+                node = node.lchild
+            self.key = node.key
+            self.rchild = self.rchild.delete(node.key, curr)
+        return self
+        
+        #HOW TO DELETE THE ROOT NODE FROM THE BST
+        #   1.check if root node is a leaf node (only one node)
+                #dont perform deletion when the root node is the lead node.
+                #tell the user about it!
+        #   2.check if root node has 1 child node
+        #   3.check if root node has 2 child nodes
+
+
+    def minnode(self):
+        current = self
+        while current.lchild:
+            current = current.lchild
+        print("node with the smallest value is", current.self)
+            
+    def max_node(self):
+        current = self
+        while current.rchild:
+            current = current.rchild
+        print("node with the largest key is ", current.self)
+
+def count(node):
+    if node is None:
+        return 0
+    return 1+count(node.lchild)+count(node.rchild)
+
+root = BST(10)
+list1 = [20,4,30,4,1,5,6]
+for i in list1:
+    root.insert(i)
+    
+print(count(root))
+
+if count(root) > 1:
+    root.delete(10, root.key)
+else:
+    print("Cannot perform deletion")
+    
+print("Inorder: ")
+root.inorder()
+"""print("\nPreorder: ")
+root.preorder()
+print("\nPostorder: ")
+root.postorder()"""
+print()
+"""root.delete(20, root.key)
+print("\nafter deleting: ")
+root.inorder()
+print()"""
+
+root.minnode()
+root.max_node()
